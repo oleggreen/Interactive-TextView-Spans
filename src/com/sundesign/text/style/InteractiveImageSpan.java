@@ -1,10 +1,7 @@
 package com.sundesign.text.style;
 
 import android.R;
-import android.content.Context;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.text.TextPaint;
 import android.text.style.DynamicDrawableSpan;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -20,24 +17,19 @@ public class InteractiveImageSpan extends DynamicDrawableSpan implements Touchab
 
     private boolean mIsSoundEffectEnabled = true;
     private Drawable mDrawable;
-    //TODO change size when changing text size in TextView
-    private int mWidth;
-    private int mHeight;
 
-    public InteractiveImageSpan(Drawable drawable, int width, int height) {
-        this(drawable, ALIGN_BOTTOM, width, height);
+    /*package*/ InteractiveImageSpan(Drawable drawable) {
+        this(drawable, ALIGN_BOTTOM);
     }
 
     /**
      * @param verticalAlignment one of {@link DynamicDrawableSpan#ALIGN_BOTTOM} or
      *                          {@link DynamicDrawableSpan#ALIGN_BASELINE}.
      */
-    public InteractiveImageSpan(Drawable drawable, int width, int height, int verticalAlignment) {
+    /*package*/ InteractiveImageSpan(Drawable drawable, int verticalAlignment) {
         super(verticalAlignment);
         mDrawable = drawable;
-        mWidth = width;
-        mHeight = height;
-        mDrawable.setBounds(0, 0, width, height);
+//        mDrawable.setBounds(0, 0, width, height);
     }
 
     @Override
@@ -109,17 +101,17 @@ public class InteractiveImageSpan extends DynamicDrawableSpan implements Touchab
         mTouchListener = listener;
     }
 
-    @Override
-    public void updateDrawState(TextPaint ds) {
-        Log.d("test2", "updateDrawState, ds.getTextSize() = " + ds.getTextSize());
-        ds.setTextSize(ds.getTextSize() * 5);
-    }
-
-    @Override
-    public void updateMeasureState(TextPaint ds) {
-        Log.d("test2", "updateMeasureState, ds.getTextSize() = " + ds.getTextSize());
-        ds.setTextSize(ds.getTextSize() * 5);
-    }
+//    @Override
+//    public void updateDrawState(TextPaint ds) {
+//        Log.d("test2", "updateDrawState, ds.getTextSize() = " + ds.getTextSize());
+//        ds.setTextSize(ds.getTextSize() * 5);
+//    }
+//
+//    @Override
+//    public void updateMeasureState(TextPaint ds) {
+//        Log.d("test2", "updateMeasureState, ds.getTextSize() = " + ds.getTextSize());
+//        ds.setTextSize(ds.getTextSize() * 5);
+//    }
 
     private OnClickListener mOnClickListener;
     private OnTouchListener mTouchListener;

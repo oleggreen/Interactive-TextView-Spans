@@ -13,8 +13,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.sundesign.text.method.InteractiveSpanMovementMethod;
+import com.sundesign.text.style.FixedInteractiveImageSpan;
 import com.sundesign.text.style.InteractiveImageSpan;
+import com.sundesign.text.style.RelativeInteractiveImageSpan;
 
 /**
  * @author Oleg Green
@@ -41,9 +44,9 @@ public class InteractiveSpanActivity extends Activity {
                 "link http://developer.android.com");
 
         InteractiveImageSpan imageSpan =
-                new InteractiveImageSpan(getStateListDrawable(), 150, 30, DynamicDrawableSpan.ALIGN_BOTTOM);
+                new RelativeInteractiveImageSpan(getStateListDrawable(), 2.4f, 5);
         InteractiveImageSpan imageSpan2 =
-                new InteractiveImageSpan(getStateListDrawable(), 150, 30, DynamicDrawableSpan.ALIGN_BOTTOM);
+                new FixedInteractiveImageSpan(getStateListDrawable(), 150, 30);
 
         imageSpan.setOnClickListener(new InteractiveImageSpan.OnClickListener() {
 
@@ -79,13 +82,12 @@ public class InteractiveSpanActivity extends Activity {
         textView2.setText(ssb, TextView.BufferType.SPANNABLE);
         textView2.setSoundEffectsEnabled(true);
         textView2.setMovementMethod(InteractiveSpanMovementMethod.getInstance());
+
+        Toast.makeText(getApplicationContext(), "text size = " + textView2.getTextSize(),
+                Toast.LENGTH_SHORT).show();
     }
 
     private Drawable getStateListDrawable() {
-
-        Drawable drawable = getResources().getDrawable(R.drawable.button_text_widget);
-//        drawable.setBounds(0, 0, 50, 30);
-
-        return drawable;
+        return getResources().getDrawable(R.drawable.button_text_widget);
     }
 }
