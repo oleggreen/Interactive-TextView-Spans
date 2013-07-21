@@ -17,7 +17,7 @@
     <TextView
             android:id="@+id/TextView2"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="130dp"
             android:textColor="@android:color/black"/>
 
 </LinearLayout>
