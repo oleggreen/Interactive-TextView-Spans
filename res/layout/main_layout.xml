@@ -19,6 +19,19 @@
             android:layout_width="fill_parent"
             android:layout_height="130dp"
             android:textColor="@android:color/black"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginTop="50dp"
+            android:textColor="@android:color/black"
+            android:text="@string/button_title"/>
+    <CheckBox
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:enabled="true"
+            android:checked="true"
+            android:background="@drawable/button_text_widget"
+            android:button="@android:color/transparent"/>
 
 </LinearLayout>
 

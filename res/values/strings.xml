@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SpannableTextTest</string>
+    <string name="app_name">Interactive-TextView-Spans</string>
     <string name="hello">hello</string>
+    <string name="button_title">this is a simple button</string>
 </resources>
