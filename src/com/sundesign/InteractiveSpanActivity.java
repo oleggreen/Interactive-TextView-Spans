@@ -1,5 +1,6 @@
 package com.sundesign;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -11,8 +12,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.*;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 
 import com.sundesign.text.method.InteractiveSpanMovementMethod;
 import com.sundesign.text.style.FixedInteractiveImageSpan;
@@ -29,6 +29,9 @@ public class InteractiveSpanActivity extends Activity {
             + "for touchscreen mobile devices such as smartphones and tablet computers";
     public static final String TEXT2 = "Here's a link to a developers website: " +
             "link http://developer.android.com";
+    private TextView mTextView;
+    private TextView mTextView2;
+    private Button mTestButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,22 +39,47 @@ public class InteractiveSpanActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
 
-        TextView textView = (TextView) findViewById(R.id.TextView);
-        textView.setText(TEXT1);
-        Spannable spannable = (Spannable) textView.getText();
+        ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        SpinnerAdapter mSpinnerAdapter = ArrayAdapter.createFromResource(getActionBar()
+                .getThemedContext(), R.array.my_menu_spinner_list, android.R.layout.simple_spinner_dropdown_item);
+        ActionBar.OnNavigationListener mNavigationCallback = new ActionBar.OnNavigationListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+
+                Toast.makeText(getApplicationContext(), "onItemSelected, pos = " + itemPosition,
+                        Toast.LENGTH_SHORT).show();
+
+                initializeTextViews(itemPosition);
+
+                return true;
+            }
+        };
+
+        actionBar.setListNavigationCallbacks(mSpinnerAdapter, mNavigationCallback);
+
+        mTextView = (TextView) findViewById(R.id.TextView);
+        mTextView2 = (TextView) findViewById(R.id.TextView2);
+        mTestButton = (Button) findViewById(R.id.test_button);
+    }
+
+    private void initializeTextViews(int mode) {
+
+        mTextView.setText(TEXT1);
+        Spannable spannable = (Spannable) mTextView.getText();
 
         StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
         spannable.setSpan(boldSpan, 13, 24, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
-        TextView textView2 = (TextView) findViewById(R.id.TextView2);
         SpannableStringBuilder ssb = new SpannableStringBuilder(TEXT2 + TEXT1 + TEXT1 + TEXT1);
 
         InteractiveImageSpan imageSpan =
-                new RelativeInteractiveImageSpan(getStateListDrawable(), 2.4f, 5);
+                new RelativeInteractiveImageSpan(getDrawable(mode), 2.4f, 5);
         InteractiveImageSpan imageSpan2 =
-                new FixedInteractiveImageSpan(getStateListDrawable(), 150, 30);
+                new FixedInteractiveImageSpan(getDrawable(mode), 150, 30);
         InteractiveImageSpan imageSpan3 =
-                new RelativeInteractiveImageSpan(getStateListDrawable(), 1.4f, 5);
+                new RelativeInteractiveImageSpan(getDrawable(mode), 1.4f, 5);
 
         imageSpan.setOnClickListener(new InteractiveImageSpan.OnClickListener() {
 
@@ -94,15 +122,27 @@ public class InteractiveSpanActivity extends Activity {
             }
         };
         ssb.setSpan(urlSpan, 44, 72, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        textView2.setText(ssb, TextView.BufferType.SPANNABLE);
-        textView2.setSoundEffectsEnabled(true);
-        textView2.setMovementMethod(InteractiveSpanMovementMethod.getInstance());
+        mTextView2.setText(ssb, TextView.BufferType.SPANNABLE);
+        mTextView2.setSoundEffectsEnabled(true);
+        mTextView2.setMovementMethod(InteractiveSpanMovementMethod.getInstance());
 
-        Toast.makeText(getApplicationContext(), "text size = " + textView2.getTextSize(),
+        mTestButton.setBackgroundResource(getBackgroundDrawableId(mode));
+
+        Toast.makeText(getApplicationContext(), "text size = " + mTextView2.getTextSize(),
                 Toast.LENGTH_SHORT).show();
     }
 
-    private Drawable getStateListDrawable() {
-        return getResources().getDrawable(R.drawable.button_text_widget);
+    private Drawable getDrawable(int type) {
+        return getResources().getDrawable(getBackgroundDrawableId(type));
+    }
+
+    private int getBackgroundDrawableId(int type) {
+
+        switch(type) {
+            case 0: return R.drawable.button_text_widget;
+            case 1: return R.drawable.button_checked_disabled;
+            case 2: return R.drawable.button_unchecked_disabled;
+            case 3: default: return R.drawable.button_unpressed_unchecked;
+        }
     }
 }

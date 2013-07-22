@@ -26,11 +26,11 @@
             android:textColor="@android:color/black"
             android:text="@string/button_title"/>
     <CheckBox
+            android:id="@+id/test_button"
             android:layout_width="150dp"
             android:layout_height="30dp"
             android:enabled="true"
             android:checked="true"
-            android:background="@drawable/button_text_widget"
             android:button="@android:color/transparent"/>
 
 </LinearLayout>
