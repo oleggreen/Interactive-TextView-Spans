@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <drawable name="selection_drawable">#95ababff</drawable>
+    <drawable name="dimmed_drawable">#66000000</drawable>
 </resources>
