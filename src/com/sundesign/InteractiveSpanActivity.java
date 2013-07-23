@@ -139,10 +139,10 @@ public class InteractiveSpanActivity extends Activity {
     private int getBackgroundDrawableId(int type) {
 
         switch(type) {
-            case 0: return R.drawable.button_text_widget;
-            case 1: return R.drawable.button_checked_disabled;
-            case 2: return R.drawable.button_unchecked_disabled;
-            case 3: default: return R.drawable.button_unpressed_unchecked;
+            case 0: default: return R.drawable.button_text_widget;
+            case 1:         return R.drawable.button_text_widget1;
+            case 2:         return R.drawable.button_text_widget2;
+            case 3:         return R.drawable.button_text_widget3;
         }
     }
 }
