@@ -25,13 +25,36 @@
             android:layout_marginTop="50dp"
             android:textColor="@android:color/black"
             android:text="@string/button_title"/>
-    <CheckBox
-            android:id="@+id/test_button"
-            android:layout_width="150dp"
-            android:layout_height="30dp"
-            android:enabled="true"
-            android:checked="true"
-            android:button="@android:color/transparent"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+        <CheckBox
+                android:id="@+id/test_button"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:layout_alignParentLeft="true"
+                android:enabled="true"
+                android:checked="true"
+                android:button="@android:color/transparent"/>
+
+        <Button
+                android:id="@+id/up_button"
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:layout_marginRight="30dp"
+                android:text="up"
+                android:layout_alignParentRight="true"/>
+
+        <Button
+                android:id="@+id/down_button"
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:text="down"
+                android:layout_toLeftOf="@id/up_button"/>
+
+    </RelativeLayout>
 
 </LinearLayout>
 

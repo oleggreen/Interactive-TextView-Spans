@@ -26,9 +26,14 @@ import com.sundesign.text.style.RelativeInteractiveImageSpan;
 public class InteractiveSpanActivity extends Activity {
 
     public static final String TEXT1 = "Android is a Linux-based operating system designed primarily "
-            + "for touchscreen mobile devices such as smartphones and tablet computers";
+            + "for touchscreen mobile devices such as smartphones and tablet computers. ";
     public static final String TEXT2 = "Here's a link to a developers website: " +
-            "link http://developer.android.com";
+            "link http://developer.android.com ";
+
+    public static final int TEXT_SIZE_CHANGE_STEP = 2;
+    public static final int TEXT_SIZE_MIN_VALUE = 6;
+    public static final int TEXT_SIZE_MAX_VALUE = 60;
+
     private TextView mTextView;
     private TextView mTextView2;
     private Button mTestButton;
@@ -62,6 +67,26 @@ public class InteractiveSpanActivity extends Activity {
         mTextView = (TextView) findViewById(R.id.TextView);
         mTextView2 = (TextView) findViewById(R.id.TextView2);
         mTestButton = (Button) findViewById(R.id.test_button);
+        findViewById(R.id.down_button).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                float textSize = mTextView2.getTextSize();
+                if (textSize >= TEXT_SIZE_CHANGE_STEP + TEXT_SIZE_MIN_VALUE)
+                    mTextView2.setTextSize(textSize - TEXT_SIZE_CHANGE_STEP);
+            }
+        });
+        findViewById(R.id.up_button).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                float textSize = mTextView2.getTextSize();
+                if (textSize <= TEXT_SIZE_MAX_VALUE - TEXT_SIZE_CHANGE_STEP)
+                    mTextView2.setTextSize(textSize + TEXT_SIZE_CHANGE_STEP);
+            }
+        });
     }
 
     private void initializeTextViews(int mode) {
