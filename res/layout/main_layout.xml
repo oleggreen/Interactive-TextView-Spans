@@ -19,25 +19,59 @@
             android:layout_width="fill_parent"
             android:layout_height="130dp"
             android:textColor="@android:color/black"/>
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginTop="50dp"
-            android:textColor="@android:color/black"
-            android:text="@string/button_title"/>
 
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp">
 
+        <TextView
+                android:id="@+id/test_button_title"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:textColor="@android:color/black"
+                android:layout_alignParentLeft="true"
+                android:text="@string/button_title"/>
         <CheckBox
                 android:id="@+id/test_button"
                 android:layout_width="150dp"
                 android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
                 android:enabled="true"
                 android:checked="true"
+                android:layout_below="@id/test_button_title"
                 android:button="@android:color/transparent"/>
+
+        <CheckBox
+                android:id="@+id/checkbox_is_enabled"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:textColor="@android:color/black"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:text="is enabled"/>
+        <CheckBox
+                android:id="@+id/checkbox_is_checked"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:textColor="@android:color/black"
+                android:layout_below="@id/checkbox_is_enabled"
+                android:text="is checked"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginTop="10dp">
+
+        <Button
+                android:id="@+id/change_selector"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:text="selector = 0"
+                android:layout_alignParentLeft="true"/>
 
         <Button
                 android:id="@+id/up_button"
