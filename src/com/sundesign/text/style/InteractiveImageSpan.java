@@ -51,16 +51,6 @@ public class InteractiveImageSpan extends DynamicDrawableSpan implements Touchab
         return mDrawable;
     }
 
-    //TODO remove this hardcode
-    static int pressed = R.attr.state_pressed;
-    static int unPressed = -R.attr.state_pressed;
-
-    static int checked = R.attr.state_checked;
-    static int unChecked = -R.attr.state_checked;
-
-    static int enabled = R.attr.state_enabled;
-    static int disabled = -R.attr.state_enabled;
-
     @Override
     public boolean onTouchEvent(MotionEvent event, TextView widget) {
 
@@ -115,9 +105,9 @@ public class InteractiveImageSpan extends DynamicDrawableSpan implements Touchab
     private int[] onCreateDrawableState() {
 
         int[] stateList = new int[3];
-        stateList[0] = mIsPressed ? pressed : unPressed;
-        stateList[1] = mIsChecked ? checked : unChecked;
-        stateList[2] = mIsEnabled ? enabled : disabled;
+        stateList[0] = mIsPressed ? R.attr.state_pressed : -R.attr.state_pressed;
+        stateList[1] = mIsChecked ? R.attr.state_checked : -R.attr.state_checked;
+        stateList[2] = mIsEnabled ? R.attr.state_enabled : -R.attr.state_enabled;
 
         return stateList;
     }
