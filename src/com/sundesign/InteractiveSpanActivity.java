@@ -42,6 +42,12 @@ public class InteractiveSpanActivity extends Activity {
     private InteractiveImageSpan mImageSpan2;
     private InteractiveImageSpan mImageSpan3;
 
+    private int[] drawableIdList = {
+            R.drawable.button_text_widget,
+            R.drawable.button_text_widget1,
+            R.drawable.button_text_widget2,
+            R.drawable.button_text_widget3 };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -95,19 +101,14 @@ public class InteractiveSpanActivity extends Activity {
                 });
 
         initializeTextViews(0);
-
-        setButtonsChecked(false);
-        setButtonsEnable(true);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        menu.add("selector 1").setOnMenuItemClickListener(new MenuItemClickListener(0));
-        menu.add("selector 2").setOnMenuItemClickListener(new MenuItemClickListener(1));
-        menu.add("selector 3").setOnMenuItemClickListener(new MenuItemClickListener(2));
-        menu.add("selector 4").setOnMenuItemClickListener(new MenuItemClickListener(3));
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        for (int i = 0; i < drawableIdList.length; i++) {
+            menu.add("selector " + i).setOnMenuItemClickListener(new MenuItemClickListener(i));
+        }
         return true;
     }
 
@@ -200,6 +201,8 @@ public class InteractiveSpanActivity extends Activity {
             }
         };
         ssb.setSpan(urlSpan, 44, 72, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        setButtonsChecked(((CheckBox)findViewById(R.id.checkbox_is_checked)).isChecked());
+        setButtonsEnable(((CheckBox)findViewById(R.id.checkbox_is_enabled)).isChecked());
         mTextView2.setText(ssb, TextView.BufferType.SPANNABLE);
         mTextView2.setSoundEffectsEnabled(true);
         mTextView2.setMovementMethod(InteractiveSpanMovementMethod.getInstance());
@@ -216,11 +219,10 @@ public class InteractiveSpanActivity extends Activity {
 
     private int getBackgroundDrawableId(int type) {
 
-        switch(type) {
-            case 0: default: return R.drawable.button_text_widget;
-            case 1:         return R.drawable.button_text_widget1;
-            case 2:         return R.drawable.button_text_widget2;
-            case 3:         return R.drawable.button_text_widget3;
+        if (type >= drawableIdList.length) {
+            throw new IllegalArgumentException("no such selector exists");
         }
+
+        return drawableIdList[type];
     }
 }
