@@ -10,6 +10,8 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.*;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
@@ -39,7 +41,6 @@ public class InteractiveSpanActivity extends Activity {
     private InteractiveImageSpan mImageSpan;
     private InteractiveImageSpan mImageSpan2;
     private InteractiveImageSpan mImageSpan3;
-    private int selectorType = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,17 +51,6 @@ public class InteractiveSpanActivity extends Activity {
         mTextView = (TextView) findViewById(R.id.TextView);
         mTextView2 = (TextView) findViewById(R.id.TextView2);
         mTestButton = (CheckBox) findViewById(R.id.test_button);
-        findViewById(R.id.change_selector).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                selectorType++;
-                if (selectorType >= 4) selectorType = 0;
-                ((Button)v).setText("selector = " + selectorType);
-                initializeTextViews(selectorType);
-            }
-        });
 
         findViewById(R.id.down_button).setOnClickListener(new View.OnClickListener() {
 
@@ -104,10 +94,37 @@ public class InteractiveSpanActivity extends Activity {
                     }
                 });
 
-        initializeTextViews(selectorType);
+        initializeTextViews(0);
 
         setButtonsChecked(false);
         setButtonsEnable(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        menu.add("selector 1").setOnMenuItemClickListener(new MenuItemClickListener(0));
+        menu.add("selector 2").setOnMenuItemClickListener(new MenuItemClickListener(1));
+        menu.add("selector 3").setOnMenuItemClickListener(new MenuItemClickListener(2));
+        menu.add("selector 4").setOnMenuItemClickListener(new MenuItemClickListener(3));
+
+        return true;
+    }
+
+    private class MenuItemClickListener implements MenuItem.OnMenuItemClickListener {
+
+        private int mSelectorType;
+
+        public MenuItemClickListener(int selectorType) {
+            mSelectorType = selectorType;
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+
+            initializeTextViews(mSelectorType);
+            return false;
+        }
     }
 
     private void setButtonsEnable(boolean isEnable) {
@@ -116,6 +133,7 @@ public class InteractiveSpanActivity extends Activity {
         if (mImageSpan != null) mImageSpan.setEnabled(isEnable);
         if (mImageSpan2 != null) mImageSpan2.setEnabled(isEnable);
         if (mImageSpan3 != null) mImageSpan3.setEnabled(isEnable);
+        if (mTextView2 != null) mTextView2.invalidate();
     }
 
     private void setButtonsChecked(boolean isChecked) {
@@ -124,6 +142,7 @@ public class InteractiveSpanActivity extends Activity {
         if (mImageSpan != null) mImageSpan.setChecked(isChecked);
         if (mImageSpan2 != null) mImageSpan2.setChecked(isChecked);
         if (mImageSpan3 != null) mImageSpan3.setChecked(isChecked);
+        if (mTextView2 != null) mTextView2.invalidate();
     }
 
     private void initializeTextViews(int mode) {

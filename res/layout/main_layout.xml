@@ -67,13 +67,6 @@
             android:layout_marginTop="10dp">
 
         <Button
-                android:id="@+id/change_selector"
-                android:layout_width="100dp"
-                android:layout_height="70dp"
-                android:text="selector = 0"
-                android:layout_alignParentLeft="true"/>
-
-        <Button
                 android:id="@+id/up_button"
                 android:layout_width="80dp"
                 android:layout_height="70dp"
