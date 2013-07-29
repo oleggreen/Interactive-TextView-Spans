@@ -6,7 +6,6 @@ import android.text.style.DynamicDrawableSpan;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
-import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -16,6 +15,10 @@ import android.widget.TextView;
 public class InteractiveImageSpan extends DynamicDrawableSpan implements TouchableSpan {
 
     private boolean mIsSoundEffectEnabled = true;
+    private boolean mIsCheckable = true;
+    private boolean mIsChecked = false;
+    private boolean mIsPressed = false;
+    private boolean mIsEnabled = true;
     private Drawable mDrawable;
 
     /*package*/ InteractiveImageSpan(Drawable drawable) {
@@ -29,8 +32,19 @@ public class InteractiveImageSpan extends DynamicDrawableSpan implements Touchab
     /*package*/ InteractiveImageSpan(Drawable drawable, int verticalAlignment) {
         super(verticalAlignment);
         mDrawable = drawable;
-//        mDrawable.setBounds(0, 0, width, height);
+        drawableStateChanged();
     }
+
+//    /**
+//     * <b>NOTE!!!: for ImageSpan drawable to be applied: </b><br/>
+//     * ImageSpan holder must be invalidated (for ex: TextView.invalidate()).
+//     */
+//    public void setDrawable(Drawable drawable) {
+//
+//        mDrawable = drawable;
+//        drawableStateChanged();
+//
+//    }
 
     @Override
     public Drawable getDrawable() {
@@ -38,30 +52,74 @@ public class InteractiveImageSpan extends DynamicDrawableSpan implements Touchab
     }
 
     //TODO remove this hardcode
-    static int[] pressed = new int[]{R.attr.state_pressed};
-    static int[] notPressed = new int[]{-R.attr.state_pressed};
+    static int pressed = R.attr.state_pressed;
+    static int unPressed = -R.attr.state_pressed;
+
+    static int checked = R.attr.state_checked;
+    static int unChecked = -R.attr.state_checked;
+
+    static int enabled = R.attr.state_enabled;
+    static int disabled = -R.attr.state_enabled;
 
     @Override
     public boolean onTouchEvent(MotionEvent event, TextView widget) {
+
+        if (!mIsEnabled) return false;
 
         if (mTouchListener != null && mTouchListener.onTouch(widget, event)) {
             return true;
         }
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            mDrawable.setState(pressed);
+            mIsPressed = true;
             Log.d("test", "in normal state, setting pressed state");
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            mDrawable.setState(notPressed);
+            mIsPressed = false;
+
+            if (isCheckable()) mIsChecked = !mIsChecked;
+
             Log.d("test", "in other state, setting normal state + onClick()");
             performClick(widget);
         } else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-            mDrawable.setState(notPressed);
+            mIsPressed = false;
             Log.d("test", "in other state, setting normal state");
         }
+
+        drawableStateChanged();
         widget.invalidate();
 
         return true;
+    }
+
+    int[] mDrawableState;
+
+    protected void drawableStateChanged() {
+
+        Drawable d = getDrawable();
+        if (d != null && d.isStateful()) {
+            d.setState(getDrawableState());
+        }
+    }
+
+    public final int[] getDrawableState() {
+
+//        if ((mDrawableState != null)) {
+//            return mDrawableState;
+//        } else {
+            mDrawableState = onCreateDrawableState();
+//            mPrivateFlags &= ~PFLAG_DRAWABLE_STATE_DIRTY;
+            return mDrawableState;
+//        }
+    }
+
+    private int[] onCreateDrawableState() {
+
+        int[] stateList = new int[3];
+        stateList[0] = mIsPressed ? pressed : unPressed;
+        stateList[1] = mIsChecked ? checked : unChecked;
+        stateList[2] = mIsEnabled ? enabled : disabled;
+
+        return stateList;
     }
 
     public boolean isSoundEffectsEnabled() {
@@ -72,7 +130,49 @@ public class InteractiveImageSpan extends DynamicDrawableSpan implements Touchab
         mIsSoundEffectEnabled = isEnabled;
     }
 
-    public boolean performClick(View widget) {
+    public boolean isPressed() {
+        return mIsPressed;
+    }
+
+    public boolean isCheckable() {
+        return mIsCheckable;
+    }
+
+    public void setCheckable(boolean isCheckable) {
+        mIsCheckable = isCheckable;
+    }
+
+    public boolean isEnabled() {
+        return mIsEnabled;
+    }
+
+    /**
+     * <b>NOTE!!!: if ImageSpan drawable is selector: </b><br/>
+     * for ImageSpan to become new state an ImageSpan holder
+     * must be invalidated (for ex: TextView.invalidate()).
+     */
+    public void setEnabled(boolean isEnabled) {
+
+        mIsEnabled = isEnabled;
+        drawableStateChanged();
+    }
+
+    public boolean isChecked() {
+        return mIsChecked;
+    }
+
+    /**
+     * <b>NOTE!!!: if ImageSpan drawable is selector: </b><br/>
+     * for ImageSpan to become new state an ImageSpan holder
+     * must be invalidated (for ex: TextView.invalidate()).
+     */
+    public void setChecked(boolean isChecked) {
+
+        mIsChecked = isChecked;
+        drawableStateChanged();
+    }
+
+    public boolean performClick(TextView widget) {
 
         if (mOnClickListener != null) {
             if (isSoundEffectsEnabled())
@@ -86,7 +186,6 @@ public class InteractiveImageSpan extends DynamicDrawableSpan implements Touchab
 
     /**
      * Register a callback to be invoked when this span is clicked.
-     *
      * @param listener The callback that will run
      */
     public void setOnClickListener(OnClickListener listener) {

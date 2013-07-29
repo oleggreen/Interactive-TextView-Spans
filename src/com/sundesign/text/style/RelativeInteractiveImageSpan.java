@@ -10,8 +10,11 @@ import android.graphics.drawable.Drawable;
  */
 public class RelativeInteractiveImageSpan extends InteractiveImageSpan {
 
+    public static final int DEFAULT_TEXT_SIZE = 1;
+
     private float mToTextProportion;
     private float mWidthHeightProportion;
+    private float mTextSize = DEFAULT_TEXT_SIZE;
 
     public RelativeInteractiveImageSpan(Drawable drawable, float toTextProportion,
                                         float widthHeightProportion) {
@@ -28,6 +31,7 @@ public class RelativeInteractiveImageSpan extends InteractiveImageSpan {
         super(drawable, verticalAlignment);
         mWidthHeightProportion = widthHeightProportion;
         mToTextProportion = toTextProportion;
+        setDrawableBounds();
     }
 
     @Override
@@ -35,15 +39,24 @@ public class RelativeInteractiveImageSpan extends InteractiveImageSpan {
                        int start, int end,
                        Paint.FontMetricsInt fm) {
 
+        mTextSize = paint.getTextSize();
+        setDrawableBounds();
+
+        return super.getSize(paint, text, start, end, fm);
+    }
+
+    private void setDrawableBounds() {
+        getDrawable().setBounds(getDrawableRect());
+    }
+
+    private Rect getDrawableRect() {
+
         Rect drawableBounds = new Rect();
 
         drawableBounds.left = 0;
         drawableBounds.top = 0;
-        drawableBounds.bottom = Math.round(paint.getTextSize() * mToTextProportion);
+        drawableBounds.bottom = Math.round(mTextSize * mToTextProportion);
         drawableBounds.right = Math.round(drawableBounds.bottom * mWidthHeightProportion);
-
-        getDrawable().setBounds(drawableBounds);
-
-        return super.getSize(paint, text, start, end, fm);
+        return drawableBounds;
     }
 }
