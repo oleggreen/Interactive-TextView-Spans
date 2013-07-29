@@ -48,6 +48,7 @@
                 android:textColor="@android:color/black"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
+                android:checked="true"
                 android:text="is enabled"/>
         <CheckBox
                 android:id="@+id/checkbox_is_checked"

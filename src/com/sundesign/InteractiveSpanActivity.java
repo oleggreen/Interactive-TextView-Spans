@@ -10,6 +10,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.*;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,9 +36,11 @@ public class InteractiveSpanActivity extends Activity {
     public static final int TEXT_SIZE_MIN_VALUE = 6;
     public static final int TEXT_SIZE_MAX_VALUE = 60;
 
-    private TextView mTextView;
-    private TextView mTextView2;
+    private TextView mSimpleTextView;
+    private TextView mComplexTextView;
     private CheckBox mTestButton;
+    private CheckBox mIsEnabledButton;
+    private CheckBox mIsCheckedButton;
     private InteractiveImageSpan mImageSpan;
     private InteractiveImageSpan mImageSpan2;
     private InteractiveImageSpan mImageSpan3;
@@ -54,51 +57,13 @@ public class InteractiveSpanActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
 
-        mTextView = (TextView) findViewById(R.id.TextView);
-        mTextView2 = (TextView) findViewById(R.id.TextView2);
+        mSimpleTextView = (TextView) findViewById(R.id.TextView);
+        mComplexTextView = (TextView) findViewById(R.id.TextView2);
         mTestButton = (CheckBox) findViewById(R.id.test_button);
+        mIsCheckedButton = (CheckBox) findViewById(R.id.checkbox_is_checked);
+        mIsEnabledButton = (CheckBox) findViewById(R.id.checkbox_is_enabled);
 
-        findViewById(R.id.down_button).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                float textSize = mTextView2.getTextSize();
-                if (textSize >= TEXT_SIZE_CHANGE_STEP + TEXT_SIZE_MIN_VALUE)
-                    mTextView2.setTextSize(textSize - TEXT_SIZE_CHANGE_STEP);
-            }
-        });
-
-        findViewById(R.id.up_button).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                float textSize = mTextView2.getTextSize();
-                if (textSize <= TEXT_SIZE_MAX_VALUE - TEXT_SIZE_CHANGE_STEP)
-                    mTextView2.setTextSize(textSize + TEXT_SIZE_CHANGE_STEP);
-            }
-        });
-
-        ((CheckBox)findViewById(R.id.checkbox_is_checked))
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                setButtonsChecked(isChecked);
-            }
-        });
-
-        ((CheckBox)findViewById(R.id.checkbox_is_enabled))
-                .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                        setButtonsEnable(isChecked);
-                    }
-                });
+        initEventsListeners();
 
         initializeTextViews(0);
     }
@@ -112,20 +77,48 @@ public class InteractiveSpanActivity extends Activity {
         return true;
     }
 
-    private class MenuItemClickListener implements MenuItem.OnMenuItemClickListener {
+    private void initEventsListeners() {
 
-        private int mSelectorType;
+        findViewById(R.id.down_button).setOnClickListener(new View.OnClickListener() {
 
-        public MenuItemClickListener(int selectorType) {
-            mSelectorType = selectorType;
-        }
+            @Override
+            public void onClick(View v) {
 
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
+                float textSize = mComplexTextView.getTextSize();
+                if (textSize >= TEXT_SIZE_CHANGE_STEP + TEXT_SIZE_MIN_VALUE)
+                    mComplexTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                            textSize - TEXT_SIZE_CHANGE_STEP);
+            }
+        });
 
-            initializeTextViews(mSelectorType);
-            return false;
-        }
+        findViewById(R.id.up_button).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                float textSize = mComplexTextView.getTextSize();
+                if (textSize <= TEXT_SIZE_MAX_VALUE - TEXT_SIZE_CHANGE_STEP) {
+                    mComplexTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                            textSize + TEXT_SIZE_CHANGE_STEP);
+                }
+            }
+        });
+
+        mIsCheckedButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setButtonsChecked(isChecked);
+            }
+        });
+
+        mIsEnabledButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setButtonsEnable(isChecked);
+            }
+        });
     }
 
     private void setButtonsEnable(boolean isEnable) {
@@ -134,7 +127,7 @@ public class InteractiveSpanActivity extends Activity {
         if (mImageSpan != null) mImageSpan.setEnabled(isEnable);
         if (mImageSpan2 != null) mImageSpan2.setEnabled(isEnable);
         if (mImageSpan3 != null) mImageSpan3.setEnabled(isEnable);
-        if (mTextView2 != null) mTextView2.invalidate();
+        if (mComplexTextView != null) mComplexTextView.invalidate();
     }
 
     private void setButtonsChecked(boolean isChecked) {
@@ -143,13 +136,13 @@ public class InteractiveSpanActivity extends Activity {
         if (mImageSpan != null) mImageSpan.setChecked(isChecked);
         if (mImageSpan2 != null) mImageSpan2.setChecked(isChecked);
         if (mImageSpan3 != null) mImageSpan3.setChecked(isChecked);
-        if (mTextView2 != null) mTextView2.invalidate();
+        if (mComplexTextView != null) mComplexTextView.invalidate();
     }
 
     private void initializeTextViews(int mode) {
 
-        mTextView.setText(TEXT1);
-        Spannable spannable = (Spannable) mTextView.getText();
+        mSimpleTextView.setText(TEXT1);
+        Spannable spannable = (Spannable) mSimpleTextView.getText();
 
         StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
         spannable.setSpan(boldSpan, 13, 24, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
@@ -201,16 +194,13 @@ public class InteractiveSpanActivity extends Activity {
             }
         };
         ssb.setSpan(urlSpan, 44, 72, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        setButtonsChecked(((CheckBox)findViewById(R.id.checkbox_is_checked)).isChecked());
-        setButtonsEnable(((CheckBox)findViewById(R.id.checkbox_is_enabled)).isChecked());
-        mTextView2.setText(ssb, TextView.BufferType.SPANNABLE);
-        mTextView2.setSoundEffectsEnabled(true);
-        mTextView2.setMovementMethod(InteractiveSpanMovementMethod.getInstance());
+        setButtonsChecked(mIsCheckedButton.isChecked());
+        setButtonsEnable(mIsEnabledButton.isChecked());
+        mComplexTextView.setText(ssb, TextView.BufferType.SPANNABLE);
+        mComplexTextView.setSoundEffectsEnabled(true);
+        mComplexTextView.setMovementMethod(InteractiveSpanMovementMethod.getInstance());
 
         mTestButton.setBackgroundResource(getBackgroundDrawableId(mode));
-
-        Toast.makeText(getApplicationContext(), "text size = " + mTextView2.getTextSize(),
-                Toast.LENGTH_SHORT).show();
     }
 
     private Drawable getDrawable(int type) {
@@ -224,5 +214,21 @@ public class InteractiveSpanActivity extends Activity {
         }
 
         return drawableIdList[type];
+    }
+
+    private class MenuItemClickListener implements MenuItem.OnMenuItemClickListener {
+
+        private int mSelectorType;
+
+        public MenuItemClickListener(int selectorType) {
+            mSelectorType = selectorType;
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+
+            initializeTextViews(mSelectorType);
+            return false;
+        }
     }
 }

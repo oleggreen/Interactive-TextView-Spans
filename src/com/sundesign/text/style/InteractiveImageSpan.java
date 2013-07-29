@@ -93,13 +93,8 @@ public class InteractiveImageSpan extends DynamicDrawableSpan implements Touchab
 
     public final int[] getDrawableState() {
 
-//        if ((mDrawableState != null)) {
-//            return mDrawableState;
-//        } else {
-            mDrawableState = onCreateDrawableState();
-//            mPrivateFlags &= ~PFLAG_DRAWABLE_STATE_DIRTY;
-            return mDrawableState;
-//        }
+        mDrawableState = onCreateDrawableState();
+        return mDrawableState;
     }
 
     private int[] onCreateDrawableState() {
