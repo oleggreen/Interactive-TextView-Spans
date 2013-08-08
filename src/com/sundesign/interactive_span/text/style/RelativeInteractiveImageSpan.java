@@ -1,4 +1,4 @@
-package com.sundesign.text.style;
+package com.sundesign.interactive_span.text.style;
 
 import android.graphics.Paint;
 import android.graphics.Rect;

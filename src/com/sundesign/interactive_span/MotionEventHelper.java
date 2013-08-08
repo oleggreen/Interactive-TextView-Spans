@@ -1,4 +1,4 @@
-package com.sundesign;
+package com.sundesign.interactive_span;
 
 import static android.view.MotionEvent.*;
 /**
