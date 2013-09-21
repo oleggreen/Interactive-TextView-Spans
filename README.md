@@ -1,4 +1,4 @@
 Interactive-TextView-Spans
 ==========================
 
-android demo project for creating interactive image spans in TextView
+android library for creating interactive image button-like spans in TextView
