@@ -1,4 +1,4 @@
-package com.sundesign.interactive_span.text.style;
+package com.marchelo.interactive_span.text.style;
 
 import android.graphics.drawable.Drawable;
 

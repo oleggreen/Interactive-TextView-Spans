@@ -1,4 +1,4 @@
-package com.sundesign.interactive_span;
+package com.marchelo.interactive_span;
 
 import static android.view.MotionEvent.*;
 /**

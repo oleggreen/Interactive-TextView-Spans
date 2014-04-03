@@ -1,4 +1,4 @@
-package com.sundesign.interactive_span.text.method;
+package com.marchelo.interactive_span.text.method;
 
 import android.text.Layout;
 import android.text.Spannable;
@@ -7,8 +7,8 @@ import android.text.method.MovementMethod;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.TextView;
-import com.sundesign.interactive_span.MotionEventHelper;
-import com.sundesign.interactive_span.text.style.TouchableSpan;
+import com.marchelo.interactive_span.MotionEventHelper;
+import com.marchelo.interactive_span.text.style.TouchableSpan;
 
 /**
  * @author Oleg Green

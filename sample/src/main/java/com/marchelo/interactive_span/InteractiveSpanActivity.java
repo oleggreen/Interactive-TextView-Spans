@@ -1,4 +1,4 @@
-package com.sundesign.interactive_span;
+package com.marchelo.interactive_span;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,10 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
-import com.sundesign.interactive_span.text.method.InteractiveSpanMovementMethod;
-import com.sundesign.interactive_span.text.style.FixedInteractiveImageSpan;
-import com.sundesign.interactive_span.text.style.InteractiveImageSpan;
-import com.sundesign.interactive_span.text.style.RelativeInteractiveImageSpan;
+import com.marchelo.interactive_span.text.method.InteractiveSpanMovementMethod;
+import com.marchelo.interactive_span.text.style.FixedInteractiveImageSpan;
+import com.marchelo.interactive_span.text.style.InteractiveImageSpan;
+import com.marchelo.interactive_span.text.style.RelativeInteractiveImageSpan;
 
 /**
  * @author Oleg Green
