@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 
-import com.sundesign.R;
 import com.sundesign.interactive_span.text.method.InteractiveSpanMovementMethod;
 import com.sundesign.interactive_span.text.style.FixedInteractiveImageSpan;
 import com.sundesign.interactive_span.text.style.InteractiveImageSpan;
