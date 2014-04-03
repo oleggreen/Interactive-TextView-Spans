@@ -26,3 +26,6 @@ local.properties
 # Gradle
 build
 .gradle
+
+# Maven
+target
